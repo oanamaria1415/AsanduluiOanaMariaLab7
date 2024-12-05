@@ -1,5 +1,5 @@
-using AsanduluiOanaMariaLab7.Models;
-
+﻿using AsanduluiOanaMariaLab7.Models;
+using SQLite;
 namespace AsanduluiOanaMariaLab7;
 
 public partial class ListPage : ContentPage
@@ -25,4 +25,57 @@ public partial class ListPage : ContentPage
         await App.Database.DeleteShopListAsync(slist); // Delete from database
         await Navigation.PopAsync(); // Navigate back to the previous page
     }
+
+ 
+    async void OnChooseButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new ProductPage((ShopList)
+       this.BindingContext)
+        {
+            BindingContext = new Product()
+        });
+
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        var shopl = (ShopList)BindingContext;
+       
+        listView.ItemsSource = await App.Database.GetListProductsAsync(shopl.ID);
+        if (BindingContext is string textList)
+        {
+            listView.ItemsSource = textList.Split('\n').ToList();
+        }
+
+    }
+
+    async void OnDeleteProductButtonClicked(object sender, EventArgs e)
+    {
+        
+        var selectedProduct = listView.SelectedItem as string;
+
+        if (!string.IsNullOrEmpty(selectedProduct))
+        {
+            
+            var products = ((string)BindingContext)?.Split('\n').ToList();
+
+           
+            products.Remove(selectedProduct);
+
+           
+            BindingContext = string.Join("\n", products);
+
+           
+            listView.ItemsSource = products;
+        }
+        else
+        {
+           
+            await DisplayAlert("Eroare", "Nu ati selectat niciun produs pentru stergere!", "OK");
+        }
+    }
+
+
+
 }
