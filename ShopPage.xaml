@@ -27,7 +27,10 @@ MaximumWidthRequest="200"
                 <Button Text="Show on Map" Grid.Column="1"
 MaximumWidthRequest="200"
  Clicked="OnShowMapButtonClicked"></Button>
-                
+                <Button Text="Delete Shop" Grid.Row="1" Grid.ColumnSpan="2"
+                        BackgroundColor="Red" TextColor="White"
+                        Clicked="OnDeleteButtonClicked" />
+
             </Grid>
         </StackLayout>
     </ContentPage.Content>

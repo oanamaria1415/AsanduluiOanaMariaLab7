@@ -3,15 +3,17 @@ namespace AsanduluiOanaMariaLab7;
 
 public partial class ShopEntryPage : ContentPage
 {
-	public ShopEntryPage()
-	{
-		InitializeComponent();
-	}
+    public ShopEntryPage()
+    {
+        InitializeComponent();
+    }
+
     protected override async void OnAppearing()
     {
         base.OnAppearing();
         listView.ItemsSource = await App.Database.GetShopsAsync();
     }
+
     async void OnShopAddedClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new ShopPage
@@ -19,8 +21,8 @@ public partial class ShopEntryPage : ContentPage
             BindingContext = new Shop()
         });
     }
-    async void OnListViewItemSelected(object sender,
-   SelectedItemChangedEventArgs e)
+
+    async void OnListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         if (e.SelectedItem != null)
         {
